@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import { Link as RadixLink } from '@radix-ui/themes'
+import { Text } from '@radix-ui/themes'
 
 interface Props {
   href: string
@@ -8,8 +8,8 @@ interface Props {
 
 const Link = ({ href, children }: Props) => {
   return (
-    <NextLink href={href} passHref legacyBehavior>
-      <RadixLink>{children}</RadixLink>
+    <NextLink href={href}>
+      <Text className='text-violet-600 hover:underline '>{children}</Text>
     </NextLink>
   )
 }

@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const SimpleMdeEditor = dynamic(() => import('react-simplemde-editor'), {
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
   ssr: false
 })
 
@@ -60,11 +60,7 @@ const NewIssuePage = () => {
           name='description'
           control={control}
           render={({ field }) => (
-            <SimpleMdeEditor
-              className='mt-5'
-              placeholder='Description'
-              {...field}
-            />
+            <SimpleMDE className='mt-5' placeholder='Description' {...field} />
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>

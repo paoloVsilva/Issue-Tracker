@@ -24,8 +24,8 @@ const IssueDetailPage = async ({ params }: Props) => {
       </Box>
       <Box>
         <Flex direction='column' gap='4'>
-          <ChangeStatusButton status={issue.status} />
-          <EditIssueButton issueId={issue.id} />
+          <ChangeStatusButton status={issue.status} issueId={issue.id} />
+          {issue.status === 'OPEN' && <EditIssueButton issueId={issue.id} />}
           <DeleteIssueButton issueId={issue.id} />
         </Flex>
       </Box>

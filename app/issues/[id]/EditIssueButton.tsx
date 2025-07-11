@@ -1,10 +1,15 @@
-import { Button } from '@radix-ui/themes'
+import { Box, Button } from '@radix-ui/themes'
 import Link from 'next/link'
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
   return (
     <Button color='green' variant='outline'>
-      <Link href={`/issues/${issueId}/edit`}>Edit Issue</Link>
+      <Link
+        href={`/issues/edit/${issueId}`}
+        className='w-full h-full inline-flex items-center justify-center'
+      >
+        Edit Issue
+      </Link>
     </Button>
   )
 }

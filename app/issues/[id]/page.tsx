@@ -5,12 +5,15 @@ import EditIssueButton from './EditIssueButton'
 import IssueDetails from './IssueDetails'
 import DeleteIssueButton from './DeleteIssueButton'
 import ChangeStatusButton from './ChangeStatusButton'
+import { getServerSession } from 'next-auth'
+import authOptions from '@/app/auth/authOptions'
 
 interface Props {
   params: Promise<{ id: string }>
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
+  const session = await getServerSession(authOptions)
   const { id } = await params
 
   if (isNaN(+id)) notFound()
@@ -23,11 +26,13 @@ const IssueDetailPage = async ({ params }: Props) => {
         <IssueDetails issue={issue} />
       </Box>
       <Box>
-        <Flex direction='column' gap='4'>
-          <ChangeStatusButton status={issue.status} issueId={issue.id} />
-          {issue.status === 'OPEN' && <EditIssueButton issueId={issue.id} />}
-          <DeleteIssueButton issueId={issue.id} />
-        </Flex>
+        {session && (
+          <Flex direction='column' gap='4'>
+            <ChangeStatusButton status={issue.status} issueId={issue.id} />
+            {issue.status === 'OPEN' && <EditIssueButton issueId={issue.id} />}
+            <DeleteIssueButton issueId={issue.id} />
+          </Flex>
+        )}
       </Box>
     </Grid>
   )

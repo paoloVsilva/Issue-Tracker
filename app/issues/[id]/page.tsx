@@ -21,6 +21,7 @@ const IssueDetailPage = async ({ params }: Props) => {
   const issue = await prisma.issue.findUnique({ where: { id: parseInt(id) } })
   if (!issue) notFound()
 
+  const isOpenIssue = issue.status === 'OPEN'
   return (
     <Grid columns={{ initial: '1', sm: '5' }} gap='5'>
       <Box className='md:col-span-4'>
@@ -29,10 +30,10 @@ const IssueDetailPage = async ({ params }: Props) => {
       <Box>
         {session && (
           <Flex direction='column' gap='4'>
-            <AssigneeSelect />
-            <Separator orientation='horizontal' size='4' />
+            {isOpenIssue && <AssigneeSelect />}
+            {isOpenIssue && <Separator orientation='horizontal' size='4' />}
             <ChangeStatusButton status={issue.status} issueId={issue.id} />
-            {issue.status === 'OPEN' && <EditIssueButton issueId={issue.id} />}
+            {isOpenIssue && <EditIssueButton issueId={issue.id} />}
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
         )}

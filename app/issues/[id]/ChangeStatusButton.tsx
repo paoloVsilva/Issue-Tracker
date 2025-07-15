@@ -19,7 +19,7 @@ const ChangeStatusButton = ({
   const updateStatus = async () => {
     try {
       setUpdating(true)
-      await axios.put('/api/issues/' + issueId + '/status', {
+      await axios.patch('/api/issues/' + issueId, {
         status: status === 'OPEN' ? 'CLOSED' : 'OPEN'
       })
       router.push('/issues')
@@ -30,15 +30,14 @@ const ChangeStatusButton = ({
     }
   }
 
+  const isOpenIssue = status === 'OPEN'
+  const buttonText = isOpenIssue ? 'Close issue' : 'Re-open issue'
   return (
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button
-            color={status === 'OPEN' ? 'green' : 'red'}
-            disabled={isUpdating}
-          >
-            {status === 'OPEN' ? 'Close issue' : 'Re-open issue'}
+          <Button color={isOpenIssue ? 'green' : 'red'} disabled={isUpdating}>
+            {buttonText}
             {isUpdating && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
@@ -46,7 +45,7 @@ const ChangeStatusButton = ({
           <AlertDialog.Title>Confirm Action</AlertDialog.Title>
           <AlertDialog.Description>
             {`Are you sure you want to ${
-              status === 'OPEN' ? 'CLOSE' : 'OPEN'
+              isOpenIssue ? 'CLOSE' : 'OPEN'
             } this issue? This action cannot be
             undone.`}
           </AlertDialog.Description>
@@ -58,7 +57,7 @@ const ChangeStatusButton = ({
             </AlertDialog.Cancel>
             <AlertDialog.Action>
               <Button color='red' onClick={updateStatus}>
-                {status === 'OPEN' ? 'Close issue' : 'Re-open issue'}
+                {buttonText}
               </Button>
             </AlertDialog.Action>
           </Flex>

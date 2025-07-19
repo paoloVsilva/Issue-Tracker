@@ -1,3 +1,5 @@
+import { prisma } from '@/prisma/client'
+import IssueSummary from './IssueSummary'
 import LatestIssues from './LatestIssues'
 
 interface Props {
@@ -7,5 +9,8 @@ interface Props {
 export default async function Home({ searchParams }: Props) {
   const params = await searchParams
 
-  return <LatestIssues />
+  const open = await prisma.issue.count({ where: { status: 'OPEN' } })
+  const closed = await prisma.issue.count({ where: { status: 'CLOSED' } })
+
+  return <IssueSummary open={open} closed={closed} />
 }
